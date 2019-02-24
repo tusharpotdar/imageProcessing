@@ -1,5 +1,5 @@
 import React from 'react'
-
+import _ from 'lodash'
 export default class Viewer extends React.Component {
   constructor(props) {
     super(props);
@@ -54,6 +54,29 @@ export default class Viewer extends React.Component {
     }
     return imageData;
   }
+
+  hideRGB = (imageData, HideR = false, HideG = false, HideB = false) => {
+    let data = imageData.data;
+    let R, G, B;
+    for (let index = 0; index < data.length; index = index + 4) {
+      [R, G, B] = [data[index], data[index + 1], data[index + 2]];
+      if (_.max([R, G, B]) === R && HideR) {
+        data[index] = 255;
+        data[index + 1] = 255;
+        data[index + 2] = 255;
+      } else if (_.max([R, G, B]) === G && HideG) {
+        data[index] = 255;
+        data[index + 1] = 255;
+        data[index + 2] = 255;
+      } else if (_.max([R, G, B]) === B && HideB) {
+        data[index] = 255;
+        data[index + 1] = 255;
+        data[index + 2] = 255;
+      }
+    }
+    return imageData;
+  }
+
   componentDidMount() {
     this.image.src = this.props.src;
     this.image.onload = () => {
@@ -64,6 +87,12 @@ export default class Viewer extends React.Component {
         this.ctx = this.canvasViewe.current.getContext('2d');
         this.ctx.drawImage(this.image, 0, 0);
         this.ctx.stroke();
+
+        // hideColor
+        let imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
+        let newImageData = this.hideRGB(imageData, false, true, false);
+        this.ctx.putImageData(newImageData, 0, 0);
+
 
         // CONVERT to INVERT
         // let imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
