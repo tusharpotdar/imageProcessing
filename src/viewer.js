@@ -99,7 +99,7 @@ export default class Viewer extends React.Component {
         // let newImageData = this.toInvert(imageData);
         // this.ctx.putImageData(newImageData, 0, 0);
 
-        // CONVERT to INVERT
+        // CONVERT to BLACK and WHIGHT
         // let imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
         // let newImageData = this.toBlackAndWhite(imageData);
         // this.ctx.putImageData(newImageData, 0, 0);
