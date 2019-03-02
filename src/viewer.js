@@ -77,7 +77,38 @@ export default class Viewer extends React.Component {
     return imageData;
   }
 
-  componentDidMount() {
+
+  toBinaryColor = (imageData) => {
+    let data = imageData.data;
+    let R, G, B;
+    for (let index = 0; index < data.length; index = index + 4) {
+      [R, G, B] = [data[index], data[index + 1], data[index + 2]];
+      if (_.mean([R, G, B]) > (255 / 2)) {
+        data[index] = 255;
+        data[index + 1] = 255;
+        data[index + 2] = 255;
+      }
+      else {
+        data[index] = 0;
+        data[index + 1] = 0;
+        data[index + 2] = 0;
+      }
+    }
+    return imageData;
+  }
+
+
+  brightness = (imageData, value) => {
+    let data = imageData.data;
+    for (let index = 0; index < data.length; index = index + 4) {
+      data[index] += value;
+      data[index + 1] += value;
+      data[index + 2] += value;
+    }
+    return imageData;
+  }
+
+  componentDidMount = async () => {
     this.image.src = this.props.src;
     this.image.onload = () => {
       this.setState({
@@ -89,9 +120,9 @@ export default class Viewer extends React.Component {
         this.ctx.stroke();
 
         // hideColor
-        let imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
-        let newImageData = this.hideRGB(imageData, false, true, false);
-        this.ctx.putImageData(newImageData, 0, 0);
+        // let imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
+        // let newImageData = this.hideRGB(imageData, false, true, false);
+        // this.ctx.putImageData(newImageData, 0, 0);
 
 
         // CONVERT to INVERT
@@ -100,9 +131,24 @@ export default class Viewer extends React.Component {
         // this.ctx.putImageData(newImageData, 0, 0);
 
         // CONVERT to BLACK and WHIGHT
-        // let imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
-        // let newImageData = this.toBlackAndWhite(imageData);
+        let imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
+        let newImageData = this.toBlackAndWhite(imageData);
+        this.ctx.putImageData(newImageData, 0, 0);
+
+
+
+        //brightness
+        // imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
+        // newImageData = this.brightness(imageData, 30);
         // this.ctx.putImageData(newImageData, 0, 0);
+
+        // CONVERT to binary
+        // imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
+        // newImageData = this.toBinaryColor(imageData);
+        // this.ctx.putImageData(newImageData, 0, 0);
+
+
+
       });
     }
   }
