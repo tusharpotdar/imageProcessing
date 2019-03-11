@@ -5,9 +5,7 @@ import Viewer from './viewer';
 class App extends Component {
   render() {
     return (
-
       <Viewer src='sampleimage.jpg' />
-
     );
   }
 }

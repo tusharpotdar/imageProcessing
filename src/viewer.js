@@ -119,6 +119,10 @@ export default class Viewer extends React.Component {
         this.ctx.drawImage(this.image, 0, 0);
         this.ctx.stroke();
 
+        let imageData;
+        let newImageData;
+
+
         // hideColor
         // let imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
         // let newImageData = this.hideRGB(imageData, false, true, false);
@@ -131,8 +135,8 @@ export default class Viewer extends React.Component {
         // this.ctx.putImageData(newImageData, 0, 0);
 
         // CONVERT to BLACK and WHIGHT
-        let imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
-        let newImageData = this.toBlackAndWhite(imageData);
+        imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
+        newImageData = this.toBlackAndWhite(imageData);
         this.ctx.putImageData(newImageData, 0, 0);
 
 
@@ -143,9 +147,9 @@ export default class Viewer extends React.Component {
         // this.ctx.putImageData(newImageData, 0, 0);
 
         // CONVERT to binary
-        // imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
-        // newImageData = this.toBinaryColor(imageData);
-        // this.ctx.putImageData(newImageData, 0, 0);
+        imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height)
+        newImageData = this.toBinaryColor(imageData);
+        this.ctx.putImageData(newImageData, 0, 0);
 
 
 
